@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order | Apple Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .tracking-container {
+            width: 800px;
+            max-width: 90%;
+            margin: 100px auto;
+            text-align: center;
+        }
+        .tracking-box {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-top: 40px;
+        }
+        .tracking-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.1);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        .track-btn {
+            background: var(--text-main);
+            color: #fff;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .track-btn:hover { background: var(--primary-color); }
+        
+        .result-card {
+            margin-top: 40px;
+            text-align: left;
+            display: none;
+            padding: 30px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #fff8e6;
+            color: #ffab00;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Apple Store</div>
+        <nav>
+            <ul class="main-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="order-tracking.html">Order Tracking</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="tracking-container">
+        <h1>Track Your Order</h1>
+        <p>Enter your Order ID to see your current status.</p>
+        
+        <div class="tracking-box">
+            <input type="text" id="order-id" class="tracking-input" placeholder="e.g. 1715243890">
+            <br>
+            <button class="track-btn" onclick="trackOrder()">Track Order</button>
+            
+            <div id="result" class="result-card">
+                <div id="status" class="status-badge">Processing</div>
+                <h2 id="res-id">Order #123456</h2>
+                <p id="res-date">Placed on May 9, 2026</p>
+                <hr style="margin: 20px 0; opacity: 0.1;">
+                <div id="res-items"></div>
+                <div style="margin-top: 20px; font-weight: 800; font-size: 1.2rem;" id="res-total">Total: $0.00</div>
+            </div>
+            <div id="error-msg" style="color: #ff7675; margin-top: 20px; display: none;">Order ID not found. Please check and try again.</div>
+        </div>
+    </div>
+
+    <script>
+        function trackOrder() {
+            const id = document.getElementById('order-id').value.trim();
+            const result = document.getElementById('result');
+            const error = document.getElementById('error-msg');
+            
+            const orders = JSON.parse(localStorage.getItem('apple_orders')) || [];
+            const order = orders.find(o => o.id.toString() === id || o.id.toString().slice(-6) === id);
+
+            if (order) {
+                error.style.display = 'none';
+                result.style.display = 'block';
+                document.getElementById('res-id').textContent = `Order #${order.id.toString().slice(-6)}`;
+                document.getElementById('res-date').textContent = `Placed on ${order.date}`;
+                document.getElementById('res-total').textContent = `Total: ${order.total}`;
+                
+                const itemsDiv = document.getElementById('res-items');
+                itemsDiv.innerHTML = order.items.map(i => `<div>${i.title} x ${i.quantity}</div>`).join('');
+            } else {
+                result.style.display = 'none';
+                error.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

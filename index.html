@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Store | Premium Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="home">
+    <header>
+        <div class="logo">Apple Store</div>
+        <nav>
+            <ul class="main-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="info.html">Info</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="order-tracking.html">Order Tracking</a></li>
+                <li><a href="chatting-dashboard.html">Chat</a></li>
+                <li><a href="cart.html" class="cart-link">Cart (<span class="cart-count">0</span>)</a></li>
+                <li class="admin-dropdown">
+                    <a href="#">Admin Portal &#9662;</a>
+                    <ul class="dropdown-content">
+                        <li><a href="admin-login.html">Login</a></li>
+                        <li><a href="admin-dashboard.html">Dashboard</a></li>
+                        <li><a href="admin-products.html">Products</a></li>
+                        <li><a href="admin-orders.html">Orders</a></li>
+                        <li><a href="admin-users.html">Users</a></li>
+                        <li><a href="admin-analytics.html">Analytics</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="carousel">
+        <div class="bg-glow"></div>
+        <div class="list" id="carousel-list">
+            <!-- Items will be injected by JS -->
+        </div>
+
+        <div class="arrows">
+            <button id="prev">&lt;&lt;</button>
+            <button id="next">&gt;</button>
+        </div>
+
+        <div class="back-btn" id="back">
+            Go Back <span>&#8599;</span>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

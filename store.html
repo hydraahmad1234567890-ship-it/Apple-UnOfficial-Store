@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store | Apple Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .store-container {
+            width: 1140px;
+            max-width: 90%;
+            margin: 100px auto;
+            padding-bottom: 100px;
+        }
+        .store-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .product-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        .product-card img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+        }
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .product-card .price {
+            font-weight: 800;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        .product-card .specs {
+            text-align: left;
+            width: 100%;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-bottom: 20px;
+        }
+        .product-card .specs div {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .product-card .buy-btn {
+            width: 100%;
+            background: var(--text-main);
+            color: #fff;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .product-card .buy-btn:hover {
+            background: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Apple Store</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="info.html">Info</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="store-container">
+        <h1 class="store-title">All Gadgets</h1>
+        
+        <div class="store-controls" style="display: flex; gap: 20px; margin-bottom: 50px; justify-content: center; flex-wrap: wrap;">
+            <input type="text" id="search-input" placeholder="Search products..." style="padding: 12px 20px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); width: 300px; outline: none;">
+            <div class="filters" style="display: flex; gap: 10px;">
+                <button class="filter-btn active" data-category="all" style="padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; background: #1d1d1f; color: #fff;">All</button>
+                <button class="filter-btn" data-category="iPhone" style="padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; background: #e8e8ed;">iPhone</button>
+                <button class="filter-btn" data-category="MacBook" style="padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; background: #e8e8ed;">Mac</button>
+                <button class="filter-btn" data-category="iPad" style="padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; background: #e8e8ed;">iPad</button>
+                <button class="filter-btn" data-category="AirPods" style="padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; background: #e8e8ed;">Audio</button>
+                <button class="filter-btn" data-category="Watch" style="padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; background: #e8e8ed;">Watch</button>
+            </div>
+        </div>
+
+        <div class="product-grid" id="store-grid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const storeGrid = document.getElementById('store-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        function renderStore(filteredProducts) {
+            storeGrid.innerHTML = '';
+            filteredProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                
+                let specsHTML = '';
+                for (const [key, value] of Object.entries(product.specs)) {
+                    specsHTML += `<div><strong>${key}:</strong> <span>${value}</span></div>`;
+                }
+
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}">
+                    <h3>${product.title}</h3>
+                    <p class="price">${product.price}</p>
+                    <div class="specs">${specsHTML}</div>
+                    <button class="buy-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                `;
+                storeGrid.appendChild(card);
+            });
+        }
+
+        function filterProducts() {
+            const query = searchInput.value.toLowerCase();
+            const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+
+            const filtered = products.filter(p => {
+                const matchesSearch = p.title.toLowerCase().includes(query);
+                const matchesCategory = activeCategory === 'all' || p.title.includes(activeCategory);
+                return matchesSearch && matchesCategory;
+            });
+
+            renderStore(filtered);
+        }
+
+        searchInput.oninput = filterProducts;
+        filterBtns.forEach(btn => {
+            btn.onclick = () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                filterBtns.forEach(b => b.style.background = '#e8e8ed');
+                filterBtns.forEach(b => b.style.color = '#1d1d1f');
+                
+                btn.classList.add('active');
+                btn.style.background = '#1d1d1f';
+                btn.style.color = '#fff';
+                filterProducts();
+            };
+        });
+
+        renderStore(products);
+    </script>
+</body>
+</html>

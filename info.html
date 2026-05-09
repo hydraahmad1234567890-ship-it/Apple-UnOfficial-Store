@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info | Apple Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .info-container {
+            width: 800px;
+            max-width: 90%;
+            margin: 100px auto;
+            line-height: 1.8;
+        }
+        .info-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+        .info-section {
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .info-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        .info-section p {
+            color: var(--text-sub);
+            margin-bottom: 20px;
+        }
+        .menu-list {
+            list-style: none;
+            padding: 0;
+        }
+        .menu-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+        .menu-list li span {
+            color: var(--text-sub);
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Apple Store</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="info.html">Info</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="info-container">
+        <h1 class="info-title">Store Information</h1>
+        
+        <div class="info-section">
+            <h2>About Our Store</h2>
+            <p>Welcome to the Apple Unofficial Store, your premier destination for the latest and greatest in Apple technology. We pride ourselves on offering a curated selection of genuine Apple products with a premium service experience that matches the quality of the hardware.</p>
+            <p>Whether you're looking for the groundbreaking iPhone 17 Air, the powerful MacBook Pro, or the immersive AirPods Max, we have the expertise to help you find the perfect device for your needs.</p>
+        </div>
+
+        <div class="info-section">
+            <h2>Store Menu</h2>
+            <ul class="menu-list">
+                <li>Product Consultation <span>Free</span></li>
+                <li>Express Device Setup <span>$29.00</span></li>
+                <li>Premium Data Migration <span>$49.00</span></li>
+                <li>Hardware Trade-in <span>Variable</span></li>
+                <li>Software Support <span>$19.00/hr</span></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

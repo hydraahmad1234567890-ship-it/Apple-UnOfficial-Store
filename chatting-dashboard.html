@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support Chat | Apple Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .chat-container {
+            width: 1140px;
+            max-width: 95%;
+            height: 80vh;
+            margin: 60px auto;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            overflow: hidden;
+        }
+        .chat-sidebar {
+            background: rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            padding: 30px;
+        }
+        .chat-sidebar h2 { margin-bottom: 20px; }
+        .contact-list { list-style: none; }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .contact-item.active { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; background: #ddd; }
+        
+        .chat-main { display: flex; flex-direction: column; }
+        .chat-header {
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-actions { display: flex; gap: 20px; }
+        .chat-actions span { cursor: pointer; font-size: 1.2rem; opacity: 0.6; transition: 0.3s; }
+        .chat-actions span:hover { opacity: 1; color: var(--primary-color); }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .msg { max-width: 70%; padding: 15px 20px; border-radius: 20px; font-size: 0.95rem; }
+        .msg.sent { align-self: flex-end; background: var(--primary-color); color: #fff; border-bottom-right-radius: 5px; }
+        .msg.received { align-self: flex-start; background: #fff; border-bottom-left-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        
+        .chat-input-area {
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,0,0,0.05);
+            outline: none;
+            font-size: 1rem;
+        }
+        .chat-input-area button {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body style="overflow: auto;">
+    <header>
+        <div class="logo">Apple Store</div>
+        <nav>
+            <ul class="main-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="index.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="chat-container">
+        <div class="chat-sidebar">
+            <h2>Messages</h2>
+            <div class="contact-list">
+                <div class="contact-item active">
+                    <div class="avatar" style="background: #ff7675;"></div>
+                    <div>
+                        <strong>Apple Support</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-sub);">Online</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="avatar" style="background: #55efc4;"></div>
+                    <div>
+                        <strong>Store Manager</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-sub);">Away</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-main">
+            <div class="chat-header">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="avatar" style="background: #ff7675; width: 40px; height: 40px;"></div>
+                    <strong>Apple Support</strong>
+                </div>
+                <div class="chat-actions">
+                    <span title="Video Call">&#128249;</span>
+                    <span title="Voice Call">&#128222;</span>
+                    <span title="More Options">&#10247;</span>
+                </div>
+            </div>
+            <div class="chat-messages" id="message-list">
+                <div class="msg received">Hello! How can we help you today with your Apple order?</div>
+                <div class="msg sent">Hi, I have a question about the iPhone 17 Pro Max availability.</div>
+            </div>
+            <div class="chat-input-area">
+                <span style="font-size: 1.5rem; cursor: pointer; opacity: 0.5;">&#128206;</span>
+                <span style="font-size: 1.5rem; cursor: pointer; opacity: 0.5;">&#128512;</span>
+                <input type="text" placeholder="Type a message..." id="msg-input">
+                <button onclick="sendMessage()">&#10148;</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const list = document.getElementById('message-list');
+            if (input.value.trim() === '') return;
+
+            const msg = document.createElement('div');
+            msg.className = 'msg sent';
+            msg.textContent = input.value;
+            list.appendChild(msg);
+            
+            input.value = '';
+            list.scrollTop = list.scrollHeight;
+
+            // Auto-reply mockup
+            setTimeout(() => {
+                const reply = document.createElement('div');
+                reply.className = 'msg received';
+                reply.textContent = "Thank you for your message! An agent will be with you shortly.";
+                list.appendChild(reply);
+                list.scrollTop = list.scrollHeight;
+            }, 1000);
+        }
+
+        document.getElementById('msg-input').onkeypress = (e) => {
+            if (e.key === 'Enter') sendMessage();
+        };
+    </script>
+</body>
+</html>
